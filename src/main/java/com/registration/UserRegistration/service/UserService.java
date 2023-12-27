@@ -4,10 +4,15 @@
  */
 package com.registration.UserRegistration.service;
 
+import com.registration.UserRegistration.entity.UserEntity;
+import java.util.List;
+import org.springframework.stereotype.Service;
+
 /**
  *
  * @author KRISHNA PRASAD YADAV
  */
+@Service
 public interface UserService {
-    
+    public List<UserEntity> getUser();
 }
