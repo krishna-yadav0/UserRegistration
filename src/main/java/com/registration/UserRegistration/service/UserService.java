@@ -15,4 +15,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserService {
     public List<UserEntity> getUser();
+     public String saveUser(String email, String mobilenumber, String username);  
 }

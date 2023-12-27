@@ -25,7 +25,7 @@ public class UserEntity {
     @Column(unique = true)
     private String email;
 
-    private String mobile_number;
+    private String mobile;
 
     private String username;
 }
