@@ -30,7 +30,7 @@ public class OtpServiceImple implements OtpService {
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
         try {
-            helper.setFrom("mahikesh1999@gmail.com");
+            
             helper.setTo(email);
             helper.setSubject("Your OTP for Login");
             helper.setText("Your OTP is: " + otp);
