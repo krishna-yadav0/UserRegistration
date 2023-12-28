@@ -37,7 +37,8 @@ public class UserServiceImple implements UserService {
     public String saveUser(String email, String mobile, String username) {
 
         UserEntity user = setUserEntity(email, mobile, username);
-// Check if email is unique
+
+        // Check if email is unique
         if (userRepository.existsByEmail(user.getEmail())) {
             return "Error: Email already exists.";
         }
@@ -105,10 +106,6 @@ public class UserServiceImple implements UserService {
         String otp = otpService.generateOtp();
         otpService.sendOtpByEmail(email, otp);
 
-        // Record the time the OTP was sent
-        lastOtpSentTime.put(email, System.currentTimeMillis());
-
-        // Clear login attempts for the user
         loginAttempts.remove(email);
     }
 
@@ -136,4 +133,19 @@ public class UserServiceImple implements UserService {
         }
     }
 
+    @Override
+    public boolean validateOtp(String email, String enteredOtp) throws Exception {
+        // Check if the email is valid
+        if (!isEmailValid(email)) {
+            throw new Exception("Invalid email.");
+        }
+
+        // Check if the user with the provided email exists
+        if (!userRepository.existsByEmail(email)) {
+            throw new Exception("User not found");
+        }
+
+        // Check if entered OTP is valid
+        return otpService.validateOtp(email, enteredOtp);
+    }
 }

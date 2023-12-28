@@ -12,4 +12,6 @@ public interface OtpService {
     public String generateOtp();
 
     public void sendOtpByEmail(String email, String otp) throws Exception;
+    
+    public boolean validateOtp(String email,String ententeredOtp) throws Exception;
 }

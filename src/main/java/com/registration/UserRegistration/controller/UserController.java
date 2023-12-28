@@ -50,5 +50,18 @@ public class UserController {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
     }
-
+    
+     @PostMapping("/validate-otp")
+    public ResponseEntity<String> validateOtp(@RequestParam String email, @RequestParam String otp) {
+        try {
+            // Call the service to handle OTP validation logic
+            if (userService.validateOtp(email, otp)) {
+                return ResponseEntity.ok("OTP validation successful");
+            } else {
+                return ResponseEntity.badRequest().body("Error: Invalid OTP.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+    }
 }

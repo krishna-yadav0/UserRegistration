@@ -16,4 +16,6 @@ public interface UserService {
     public String saveUser(String email, String mobilenumber, String username);
 
     public void loginUser(String email) throws Exception;
+    
+    public boolean validateOtp(String emil, String otp) throws Exception;
 }
