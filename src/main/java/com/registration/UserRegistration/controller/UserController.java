@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.registration.UserRegistration.controller;
 
 import com.registration.UserRegistration.entity.UserEntity;
@@ -37,23 +33,22 @@ public class UserController {
     public ResponseEntity<String> saveUser(@PathVariable String email, @PathVariable String mobilenumber,
             @PathVariable String username) {
         String result = userService.saveUser(email, mobilenumber, username);
-        if("User successfully registered.".equals(result)){
+        if ("User successfully registered.".equals(result)) {
             return ResponseEntity.ok(result);
-        }else{
+        } else {
             return ResponseEntity.badRequest().body(result);
         }
     }
-    
-      @PostMapping("/login")
+
+    @PostMapping("/login")
     public ResponseEntity<String> login(@RequestParam String email) {
         // Call the service to handle login logic
-        try{
-        userService.loginUser(email);
-         return ResponseEntity.ok("OTP sent successful");
-        } catch(Exception e){
-           return ResponseEntity.badRequest().body("Error: " + e.getMessage());
-      } 
-}
-    
+        try {
+            userService.loginUser(email);
+            return ResponseEntity.ok("OTP sent successful");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+    }
 
 }

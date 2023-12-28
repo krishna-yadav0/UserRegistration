@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package com.registration.UserRegistration.service;
 
 import com.registration.UserRegistration.entity.UserEntity;
@@ -14,7 +10,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface UserService {
+
     public List<UserEntity> getUser();
-     public String saveUser(String email, String mobilenumber, String username);  
-     public void loginUser(String email) throws Exception;
+
+    public String saveUser(String email, String mobilenumber, String username);
+
+    public void loginUser(String email) throws Exception;
 }

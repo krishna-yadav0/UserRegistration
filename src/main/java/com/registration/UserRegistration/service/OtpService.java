@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package com.registration.UserRegistration.service;
 
 import org.springframework.stereotype.Service;
@@ -12,6 +8,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface OtpService {
-     public String generateOtp();
-     public void sendOtpByEmail(String email, String otp) throws Exception;
+
+    public String generateOtp();
+
+    public void sendOtpByEmail(String email, String otp) throws Exception;
 }

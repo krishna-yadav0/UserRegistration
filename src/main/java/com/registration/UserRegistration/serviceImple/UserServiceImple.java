@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.registration.UserRegistration.serviceImple;
 
 import com.registration.UserRegistration.entity.UserEntity;
@@ -19,28 +15,27 @@ import org.springframework.stereotype.Service;
  * @author KRISHNA PRASAD YADAV
  */
 @Service
-public class UserServiceImple implements UserService{
-    
+public class UserServiceImple implements UserService {
+
     @Autowired
     private OtpService otpService;
-    
+
     @Autowired
     private UserRepository userRepository;
-    
-     private Map<String, Integer> loginAttempts = new HashMap<>();
+
+    private Map<String, Integer> loginAttempts = new HashMap<>();
     private Map<String, Long> lastOtpSentTime = new HashMap<>();
     private static final int MAX_LOGIN_ATTEMPTS = 3;
     private static final int BLOCK_TIME_IN_MILLIS = 5 * 60 * 1000; // 5 minutes in milliseconds
-            
-            
+
     @Override
     public List<UserEntity> getUser() {
 
         return userRepository.findAll();
     }
-    
+
     public String saveUser(String email, String mobile, String username) {
-        
+
         UserEntity user = setUserEntity(email, mobile, username);
 // Check if email is unique
         if (userRepository.existsByEmail(user.getEmail())) {
@@ -61,29 +56,28 @@ public class UserServiceImple implements UserService{
 
         return "User successfully registered.";
     }
-    
-    
-    private boolean isValidMobileNumber(String mobileNumber) {
-    // Check if the mobile number is not null and is exactly 10 digits
-    if (mobileNumber == null || mobileNumber.length() != 10) {
-        return false;
-    }
 
-    // Check if the mobile number consists of only digits
-    for (char digit : mobileNumber.toCharArray()) {
-        if (!Character.isDigit(digit)) {
+    private boolean isValidMobileNumber(String mobileNumber) {
+        // Check if the mobile number is not null and is exactly 10 digits
+        if (mobileNumber == null || mobileNumber.length() != 10) {
             return false;
         }
+
+        // Check if the mobile number consists of only digits
+        for (char digit : mobileNumber.toCharArray()) {
+            if (!Character.isDigit(digit)) {
+                return false;
+            }
+        }
+        return true;
     }
-    return true;
-}
-    
-    private UserEntity setUserEntity(String email, String mobile, String username){
+
+    private UserEntity setUserEntity(String email, String mobile, String username) {
         UserEntity user = new UserEntity();
         user.setEmail(email);
         user.setMobile(mobile);
         user.setUsername(username);
-        
+
         return user;
     }
 
@@ -103,7 +97,6 @@ public class UserServiceImple implements UserService{
         if (!userRepository.existsByEmail(email)) {
             throw new Exception("User not found");
         }
-        
 
         // Check if the user is blocked
         checkLoginAttempts(email);
@@ -142,5 +135,5 @@ public class UserServiceImple implements UserService{
             }
         }
     }
-    
+
 }

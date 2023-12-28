@@ -10,8 +10,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories
 public class UserRegistrationApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(UserRegistrationApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(UserRegistrationApplication.class, args);
+    }
 
 }
