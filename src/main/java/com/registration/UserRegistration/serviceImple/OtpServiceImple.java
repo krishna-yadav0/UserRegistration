@@ -21,49 +21,67 @@ public class OtpServiceImple implements OtpService {
 
     @Autowired
     private JavaMailSender mailSender;
-    
-     private Map<String, String> otpMap = new HashMap<>();
+
+    private Map<String, String> otpMap = new HashMap<>();
     private Map<String, Long> otpCreationTime = new HashMap<>();
     private static final int OTP_EXPIRY_TIME_IN_MILLIS = 2 * 60 * 1000; // 2 minutes
 
+    
+    /**
+     * This method is use to generate the 6 digit OTP
+     * @return 
+     */
     public String generateOtp() {
-        // Generate a 6-digit OTP (you can customize this based on your requirements)
-        // For simplicity, using a random number for demonstration purposes
+        // Generate a 6-digit OTP 
         int otp = 100000 + (int) (Math.random() * 900000);
         return String.valueOf(otp);
     }
 
+    
+    /**
+     * This method is use to send OTP on provided email
+     * @param email
+     * @param otp
+     * @throws Exception 
+     */
     public void sendOtpByEmail(String email, String otp) throws Exception {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
         try {
-            
+
             helper.setTo(email);
             helper.setSubject("Your OTP for Login");
             helper.setText("Your OTP is: " + otp);
-
+            
+            //Sending an email
             mailSender.send(message);
             otpMap.put(email, otp);
+            
             // Record the time the OTP was sent
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");  
-    Date date = new Date();  
-    System.out.println(formatter.format(date)); 
-        otpCreationTime.put(email, date.getTime());
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            Date date = new Date();
+            System.out.println(formatter.format(date));
+            otpCreationTime.put(email, date.getTime());
 
-        // Clear login attempts for the user
-    
         } catch (MessagingException e) {
             throw new Exception("Failed to send OTP. Please try again.", e);
         }
     }
 
+    /**
+     * This method is use to validate the OTP.
+     * @param email
+     * @param enteredOtp
+     * @return 
+     */
     @Override
     public boolean validateOtp(String email, String enteredOtp) {
         // Check if the entered OTP matches the stored OTP for the given email
         String storedOtp = otpMap.get(email);
 
         if (storedOtp != null && storedOtp.equals(enteredOtp)) {
+            
             // Check if the OTP has not expired
             long creationTime = otpCreationTime.get(email);
             long currentTime = System.currentTimeMillis();

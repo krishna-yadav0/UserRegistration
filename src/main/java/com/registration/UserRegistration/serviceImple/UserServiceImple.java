@@ -28,12 +28,24 @@ public class UserServiceImple implements UserService {
     private static final int MAX_LOGIN_ATTEMPTS = 3;
     private static final int BLOCK_TIME_IN_MILLIS = 5 * 60 * 1000; // 5 minutes in milliseconds
 
+    /**
+     * This method is use to fetch all record from database. 
+     * @return 
+     */
     @Override
     public List<UserEntity> getUser() {
 
         return userRepository.findAll();
     }
 
+    
+    /**
+     * This method is us to save user in database.
+     * @param email
+     * @param mobile
+     * @param username
+     * @return 
+     */
     public String saveUser(String email, String mobile, String username) {
 
         UserEntity user = setUserEntity(email, mobile, username);
@@ -43,11 +55,12 @@ public class UserServiceImple implements UserService {
             return "Error: Email already exists.";
         }
 
-        // Check if mobile number is valid and unique
+        // Check if mobile number is valid
         if (!isValidMobileNumber(user.getMobile())) {
             return "Error: Invalid mobile number.";
         }
 
+        //Check if mobile number is unique
         if (userRepository.existsByMobile(user.getMobile())) {
             return "Error: Mobile number already exists.";
         }
@@ -58,6 +71,11 @@ public class UserServiceImple implements UserService {
         return "User successfully registered.";
     }
 
+    /**
+     * This method is use to check mobile number is valid or not.
+     * @param mobileNumber
+     * @return 
+     */
     private boolean isValidMobileNumber(String mobileNumber) {
         // Check if the mobile number is not null and is exactly 10 digits
         if (mobileNumber == null || mobileNumber.length() != 10) {
@@ -82,11 +100,11 @@ public class UserServiceImple implements UserService {
         return user;
     }
 
-//    @Override
-//    public String loginUser(String email) {
-//return null;
-//    }
-//    
+/**
+ * This method is use to validate an email and send an OTP to provided email. 
+ * @param email
+ * @throws Exception 
+ */  
     @Override
     public void loginUser(String email) throws Exception {
         // Check if the email is valid
@@ -110,11 +128,14 @@ public class UserServiceImple implements UserService {
     }
 
     private boolean isEmailValid(String email) {
-        // Add logic to check if the email is valid (you can use a regular expression)
-        // For simplicity, assuming any non-empty string is a valid email
         return email != null && !email.trim().isEmpty();
     }
 
+    /**
+     * This method is use to check login attempts
+     * @param email
+     * @throws Exception 
+     */
     private void checkLoginAttempts(String email) throws Exception {
         if (loginAttempts.containsKey(email)) {
             int attempts = loginAttempts.get(email);
@@ -133,6 +154,13 @@ public class UserServiceImple implements UserService {
         }
     }
 
+    /**
+     * This method is use to validate the OTP
+     * @param email
+     * @param enteredOtp
+     * @return
+     * @throws Exception 
+     */
     @Override
     public boolean validateOtp(String email, String enteredOtp) throws Exception {
         // Check if the email is valid

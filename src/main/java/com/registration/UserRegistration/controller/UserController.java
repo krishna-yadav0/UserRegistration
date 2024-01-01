@@ -23,12 +23,22 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    /**
+     * This method is use to fetch all record from database(additional)
+     * @return 
+     */
     @GetMapping("/get")
     public List<UserEntity> getUser() {
-
         return userService.getUser();
     }
 
+    /**
+     * This method is use to save the records in database
+     * @param email
+     * @param mobilenumber
+     * @param username
+     * @return 
+     */
     @PostMapping("/save/{email}/{mobilenumber}/{username}")
     public ResponseEntity<String> saveUser(@PathVariable String email, @PathVariable String mobilenumber,
             @PathVariable String username) {
@@ -40,6 +50,11 @@ public class UserController {
         }
     }
 
+    /**
+     * This method is use to send OTP on registered email
+     * @param email
+     * @return 
+     */
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestParam String email) {
         // Call the service to handle login logic
@@ -50,13 +65,20 @@ public class UserController {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
     }
+
     
-     @PostMapping("/validate-otp")
+    /**
+     * This method is use to validate the OTP and login successfully.
+     * @param email
+     * @param otp
+     * @return 
+     */
+    @PostMapping("/validate-otp")
     public ResponseEntity<String> validateOtp(@RequestParam String email, @RequestParam String otp) {
         try {
             // Call the service to handle OTP validation logic
             if (userService.validateOtp(email, otp)) {
-                return ResponseEntity.ok("OTP validation successful");
+                return ResponseEntity.ok("Login successful");
             } else {
                 return ResponseEntity.badRequest().body("Error: Invalid OTP.");
             }
